@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Monitor, Apple, Laptop, Download, ExternalLink } from "lucide-react";
 
 const BASE_DL =
-  "https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1";
+  "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1";
 const RELEASES_URL =
   "https://github.com/raiylakee/absensholat-desktop-el/releases/tag/v1.1.1";
 
@@ -15,8 +15,9 @@ const platforms = [
     formats: ".exe (NSIS)",
     arch: "x64 & arm64",
     desc: "Installer untuk Windows 10/11",
-    href: `${BASE_DL}/Absensholat.Desktop.Setup.1.1.1.exe`,
-    downloadLabel: "Download .exe",
+    downloads: [
+      { label: "Download .exe", href: `${BASE_DL}/Absensholat.Desktop.Setup.1.1.1.exe` },
+    ],
   },
   {
     icon: Apple,
@@ -24,17 +25,21 @@ const platforms = [
     formats: ".dmg (Universal)",
     arch: "Intel & Apple Silicon",
     desc: "Untuk macOS 11 Big Sur ke atas",
-    href: `${BASE_DL}/Absensholat.Desktop-1.1.1-universal.dmg`,
-    downloadLabel: "Download .dmg",
+    downloads: [
+      { label: "Download .dmg", href: `${BASE_DL}/Absensholat.Desktop-1.1.1-universal.dmg` },
+    ],
   },
   {
     icon: Laptop,
     label: "Linux",
     formats: ".deb / .AppImage / .rpm",
     arch: "x64 & arm64",
-    desc: "Untuk Debian, Ubuntu, Fedora, dan distro lainnya",
-    href: `${BASE_DL}/absensholat-desktop-el_1.1.1_amd64.deb`,
-    downloadLabel: "Download .deb",
+    desc: "Untuk Debian, Ubuntu, Fedora, Arch, dan distro lainnya",
+    downloads: [
+      { label: "Download .deb", href: `${BASE_DL}/absensholat-desktop-el_1.1.1_amd64.deb` },
+      { label: "Download .AppImage", href: `${BASE_DL}/Absensholat.Desktop-1.1.1.AppImage` },
+      { label: "Download .rpm", href: `${BASE_DL}/absensholat-desktop-el-1.1.1.x86_64.rpm` },
+    ],
   },
 ];
 
@@ -96,15 +101,20 @@ export default function DesktopAppSection() {
                   <span>{p.arch}</span>
                 </div>
 
-                {/* Download button */}
-                <a
-                  href={p.href}
-                  download
-                  className="inline-flex items-center gap-2 w-full justify-center rounded-xl bg-gradient-to-r from-primary to-secondary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:opacity-90 transition-opacity"
-                >
-                  <Download size={16} />
-                  {p.downloadLabel}
-                </a>
+                {/* Download buttons */}
+                <div className="flex flex-col gap-2">
+                  {p.downloads.map((dl) => (
+                    <a
+                      key={dl.label}
+                      href={dl.href}
+                      download
+                      className="inline-flex items-center gap-2 w-full justify-center rounded-xl bg-gradient-to-r from-primary to-secondary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:opacity-90 transition-opacity"
+                    >
+                      <Download size={16} />
+                      {dl.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ))}

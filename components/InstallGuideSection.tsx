@@ -18,6 +18,11 @@ interface Step {
   desc: string;
 }
 
+interface DownloadLink {
+  label: string;
+  href: string;
+}
+
 interface PlatformData {
   id: Platform;
   label: string;
@@ -25,6 +30,7 @@ interface PlatformData {
   steps: Step[];
   downloadLabel: string;
   downloadHref?: string;
+  extraDownloads?: DownloadLink[];
 }
 
 const platforms: PlatformData[] = [
@@ -58,7 +64,7 @@ const platforms: PlatformData[] = [
     icon: Monitor,
     downloadLabel: "Download .exe",
     downloadHref:
-      "https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/Absensholat.Desktop.Setup.1.1.1.exe",
+      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/Absensholat.Desktop.Setup.1.1.1.exe",
     steps: [
       {
         title: "Download installer",
@@ -84,7 +90,7 @@ const platforms: PlatformData[] = [
     icon: Apple,
     downloadLabel: "Download .dmg",
     downloadHref:
-      "https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/Absensholat.Desktop-1.1.1-universal.dmg",
+      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/Absensholat.Desktop-1.1.1-universal.dmg",
     steps: [
       {
         title: "Download file .dmg",
@@ -110,19 +116,29 @@ const platforms: PlatformData[] = [
     icon: Laptop,
     downloadLabel: "Download .deb",
     downloadHref:
-      "https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/absensholat-desktop-el_1.1.1_amd64.deb",
+      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/absensholat-desktop-el_1.1.1_amd64.deb",
+    extraDownloads: [
+      {
+        label: "Download .AppImage",
+        href: "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/Absensholat.Desktop-1.1.1.AppImage",
+      },
+      {
+        label: "Download .rpm",
+        href: "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/absensholat-desktop-el-1.1.1.x86_64.rpm",
+      },
+    ],
     steps: [
       {
         title: "Pilih format package",
-        desc: "Download file .deb untuk Debian/Ubuntu atau .AppImage untuk distribusi lainnya.",
+        desc: "Download .deb untuk Debian/Ubuntu, .rpm untuk Fedora/RHEL, atau .AppImage untuk semua distro (tanpa install).",
       },
       {
         title: "Install package",
-        desc: 'Untuk .deb: jalankan "sudo dpkg -i absensholat-desktop.deb". Untuk .AppImage: chmod +x lalu jalankan.',
+        desc: 'deb: "sudo dpkg -i file.deb". rpm: "sudo rpm -i file.rpm". AppImage: chmod +x lalu jalankan langsung.',
       },
       {
-        title: "Install dependencies",
-        desc: 'Jika ada error dependency, jalankan "sudo apt-get install -f" untuk memperbaikinya.',
+        title: "Install dependencies (deb/rpm)",
+        desc: 'Jika error dependency di Debian: "sudo apt-get install -f". Di Fedora: "sudo dnf install". AppImage tidak perlu.',
       },
       {
         title: "Selesai!",
@@ -229,8 +245,8 @@ export default function InstallGuideSection() {
               ))}
             </div>
 
-            {/* Download button */}
-            <div className="mt-8 text-center">
+            {/* Download button(s) */}
+            <div className="mt-8 flex flex-col items-center gap-2">
               {active.downloadHref ? (
                 <a
                   href={active.downloadHref}
@@ -246,6 +262,17 @@ export default function InstallGuideSection() {
                   {active.downloadLabel}
                 </button>
               )}
+              {active.extraDownloads?.map((dl) => (
+                <a
+                  key={dl.label}
+                  href={dl.href}
+                  download
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-foreground font-semibold text-sm hover:border-border-hover hover:bg-card transition-all"
+                >
+                  <Download size={18} />
+                  {dl.label}
+                </a>
+              ))}
             </div>
           </motion.div>
         </AnimatePresence>
