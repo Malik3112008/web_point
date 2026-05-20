@@ -24,6 +24,7 @@ interface PlatformData {
   icon: React.ElementType;
   steps: Step[];
   downloadLabel: string;
+  downloadHref?: string;
 }
 
 const platforms: PlatformData[] = [
@@ -56,10 +57,12 @@ const platforms: PlatformData[] = [
     label: "Windows",
     icon: Monitor,
     downloadLabel: "Download .exe",
+    downloadHref:
+      "https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/Absensholat.Desktop.Setup.1.1.1.exe",
     steps: [
       {
         title: "Download installer",
-        desc: "Klik tombol download untuk mengunduh file .exe installer AppPoint.",
+        desc: "Klik tombol download untuk mengunduh file .exe installer Absensholat Desktop.",
       },
       {
         title: "Jalankan installer",
@@ -71,7 +74,7 @@ const platforms: PlatformData[] = [
       },
       {
         title: "Selesai!",
-        desc: "AppPoint akan muncul di Start Menu dan desktop. Buka dan mulai gunakan.",
+        desc: "Absensholat Desktop akan muncul di Start Menu dan desktop. Buka dan mulai gunakan.",
       },
     ],
   },
@@ -80,10 +83,12 @@ const platforms: PlatformData[] = [
     label: "macOS",
     icon: Apple,
     downloadLabel: "Download .dmg",
+    downloadHref:
+      "https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/Absensholat.Desktop-1.1.1-universal.dmg",
     steps: [
       {
         title: "Download file .dmg",
-        desc: "Klik tombol download untuk mengunduh file disk image (.dmg) AppPoint.",
+        desc: "Klik tombol download untuk mengunduh file disk image (.dmg) Absensholat Desktop.",
       },
       {
         title: "Buka file .dmg",
@@ -91,11 +96,11 @@ const platforms: PlatformData[] = [
       },
       {
         title: "Drag ke Applications",
-        desc: "Seret ikon AppPoint ke folder Applications seperti pada aplikasi macOS lainnya.",
+        desc: "Seret ikon Absensholat Desktop ke folder Applications seperti pada aplikasi macOS lainnya.",
       },
       {
         title: "Selesai!",
-        desc: "Buka AppPoint dari Launchpad atau folder Applications. Selamat menikmati!",
+        desc: "Buka Absensholat Desktop dari Launchpad atau folder Applications. Selamat menikmati!",
       },
     ],
   },
@@ -104,6 +109,8 @@ const platforms: PlatformData[] = [
     label: "Linux",
     icon: Laptop,
     downloadLabel: "Download .deb",
+    downloadHref:
+      "https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.1/absensholat-desktop-el_1.1.1_amd64.deb",
     steps: [
       {
         title: "Pilih format package",
@@ -111,7 +118,7 @@ const platforms: PlatformData[] = [
       },
       {
         title: "Install package",
-        desc: 'Untuk .deb: jalankan "sudo dpkg -i apppoint.deb". Untuk .AppImage: chmod +x lalu jalankan.',
+        desc: 'Untuk .deb: jalankan "sudo dpkg -i absensholat-desktop.deb". Untuk .AppImage: chmod +x lalu jalankan.',
       },
       {
         title: "Install dependencies",
@@ -119,7 +126,7 @@ const platforms: PlatformData[] = [
       },
       {
         title: "Selesai!",
-        desc: "Cari AppPoint di application menu atau jalankan dari terminal.",
+        desc: "Cari Absensholat Desktop di application menu atau jalankan dari terminal.",
       },
     ],
   },
@@ -224,10 +231,21 @@ export default function InstallGuideSection() {
 
             {/* Download button */}
             <div className="mt-8 text-center">
-              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
-                <Download size={18} />
-                {active.downloadLabel}
-              </button>
+              {active.downloadHref ? (
+                <a
+                  href={active.downloadHref}
+                  download
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
+                >
+                  <Download size={18} />
+                  {active.downloadLabel}
+                </a>
+              ) : (
+                <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
+                  <Download size={18} />
+                  {active.downloadLabel}
+                </button>
+              )}
             </div>
           </motion.div>
         </AnimatePresence>
