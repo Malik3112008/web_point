@@ -16,7 +16,7 @@ const platforms = [
     arch: "x64 & arm64",
     desc: "Installer untuk Windows 10/11",
     downloads: [
-      { label: "Download .msi", href: `${BASE_DL}/Absensholat.Desktop.Setup.1.1.7.msi` },
+      { label: "Download .msi", href: `${BASE_DL}/Absensholat.Desktop.1.1.7.msi` },
     ],
   },
   {

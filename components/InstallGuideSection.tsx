@@ -64,7 +64,7 @@ const platforms: PlatformData[] = [
     icon: Monitor,
     downloadLabel: "Download .msi",
     downloadHref:
-      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7/Absensholat.Desktop.Setup.1.1.7.msi",
+      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7/Absensholat.Desktop.1.1.7.msi",
     steps: [
       {
         title: "Download installer",
