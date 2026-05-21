@@ -13,7 +13,7 @@ const platforms = [
   {
     icon: Monitor,
     label: "Windows",
-    sub: ".exe / Microsoft Store",
+    sub: ".msi / Microsoft Store",
   },
   {
     icon: Apple,

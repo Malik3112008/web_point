@@ -16,7 +16,7 @@ const platforms = [
     sub: "Google Play / APK",
     primary: true,
   },
-  { icon: Monitor, name: "Windows", sub: ".exe / Microsoft Store" },
+  { icon: Monitor, name: "Windows", sub: ".msi / Microsoft Store" },
   { icon: Apple, name: "macOS", sub: ".dmg / Mac App Store" },
   { icon: Laptop, name: "Linux", sub: ".deb / .AppImage" },
   { icon: Globe, name: "Web App", sub: "Open in Browser" },

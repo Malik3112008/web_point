@@ -55,15 +55,15 @@ const platforms: PlatformData[] = [
     id: "windows",
     label: "Windows",
     icon: Monitor,
-    downloadLabel: "Download .exe",
+    downloadLabel: "Download .msi",
     steps: [
       {
         title: "Download installer",
-        desc: "Klik tombol download untuk mengunduh file .exe installer AppPoint.",
+        desc: "Klik tombol download untuk mengunduh file .msi installer AppPoint.",
       },
       {
         title: "Jalankan installer",
-        desc: "Buka file .exe yang telah diunduh. Jika muncul peringatan SmartScreen, klik 'Run anyway'.",
+        desc: "Buka file .msi yang telah diunduh. Jika muncul peringatan SmartScreen, klik 'Run anyway'.",
       },
       {
         title: "Ikuti wizard instalasi",
