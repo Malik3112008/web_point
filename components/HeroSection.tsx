@@ -48,7 +48,7 @@ export default function HeroSection() {
         transition={{ duration: 0.5 }}
         className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-secondary"
       >
-        <span>✨</span> v2.0 Now Available
+        <span>✨</span> v1.0.1 Now Available
       </motion.div>
 
       {/* Headline */}

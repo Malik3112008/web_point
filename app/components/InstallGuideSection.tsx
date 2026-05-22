@@ -39,7 +39,7 @@ const platforms: PlatformData[] = [
     label: "Android",
     icon: Smartphone,
     downloadLabel: "Download APK",
-    downloadHref: "/sas-mobile-v1.0.0.apk",
+    downloadHref: "/sas-mobile-v1.0.1.apk",
     steps: [
       {
         title: "Download APK atau buka Google Play",
