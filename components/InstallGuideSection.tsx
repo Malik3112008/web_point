@@ -39,6 +39,7 @@ const platforms: PlatformData[] = [
     label: "Android",
     icon: Smartphone,
     downloadLabel: "Download APK",
+    downloadHref: "/sas-mobile-v1.0.0.apk",
     steps: [
       {
         title: "Download APK atau buka Google Play",
@@ -64,7 +65,7 @@ const platforms: PlatformData[] = [
     icon: Monitor,
     downloadLabel: "Download .msi",
     downloadHref:
-      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7/Absensholat.Desktop.1.1.7.msi",
+      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.9/Absensholat.Desktop.1.1.9.msi",
     steps: [
       {
         title: "Download installer",
@@ -90,7 +91,7 @@ const platforms: PlatformData[] = [
     icon: Apple,
     downloadLabel: "Download .dmg",
     downloadHref:
-      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7/Absensholat.Desktop-1.1.7-universal.dmg",
+      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.9/Absensholat.Desktop-1.1.9-universal.dmg",
     steps: [
       {
         title: "Download file .dmg",
@@ -116,15 +117,15 @@ const platforms: PlatformData[] = [
     icon: Laptop,
     downloadLabel: "Download .deb",
     downloadHref:
-      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7/absensholat-desktop-el_1.1.7_amd64.deb",
+      "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.9/absensholat-desktop-el_1.1.9_amd64.deb",
     extraDownloads: [
       {
         label: "Download .AppImage",
-        href: "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7/Absensholat.Desktop-1.1.7.AppImage",
+        href: "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.9/Absensholat.Desktop-1.1.9.AppImage",
       },
       {
         label: "Download .rpm",
-        href: "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7/absensholat-desktop-el-1.1.7.x86_64.rpm",
+        href: "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.9/absensholat-desktop-el-1.1.9.x86_64.rpm",
       },
     ],
     steps: [

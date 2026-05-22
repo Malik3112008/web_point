@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { Monitor, Apple, Laptop, Download, ExternalLink } from "lucide-react";
 
 const BASE_DL =
-  "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.7";
+  "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.9";
 const RELEASES_URL =
-  "https://github.com/raiylakee/absensholat-desktop-el/releases/tag/v1.1.7";
+  "https://github.com/raiylakee/absensholat-desktop-el/releases/tag/v1.1.9";
 
 const platforms = [
   {
@@ -16,7 +16,7 @@ const platforms = [
     arch: "x64 & arm64",
     desc: "Installer untuk Windows 10/11",
     downloads: [
-      { label: "Download .msi", href: `${BASE_DL}/Absensholat.Desktop.1.1.7.msi` },
+      { label: "Download .msi", href: `${BASE_DL}/Absensholat.Desktop.1.1.9.msi` },
     ],
   },
   {
@@ -26,7 +26,7 @@ const platforms = [
     arch: "Intel & Apple Silicon",
     desc: "Untuk macOS 11 Big Sur ke atas",
     downloads: [
-      { label: "Download .dmg", href: `${BASE_DL}/Absensholat.Desktop-1.1.7-universal.dmg` },
+      { label: "Download .dmg", href: `${BASE_DL}/Absensholat.Desktop-1.1.9-universal.dmg` },
     ],
   },
   {
@@ -36,9 +36,9 @@ const platforms = [
     arch: "x64 & arm64",
     desc: "Untuk Debian, Ubuntu, Fedora, Arch, dan distro lainnya",
     downloads: [
-      { label: "Download .deb", href: `${BASE_DL}/absensholat-desktop-el_1.1.7_amd64.deb` },
-      { label: "Download .AppImage", href: `${BASE_DL}/Absensholat.Desktop-1.1.7.AppImage` },
-      { label: "Download .rpm", href: `${BASE_DL}/absensholat-desktop-el-1.1.7.x86_64.rpm` },
+      { label: "Download .deb", href: `${BASE_DL}/absensholat-desktop-el_1.1.9_amd64.deb` },
+      { label: "Download .AppImage", href: `${BASE_DL}/Absensholat.Desktop-1.1.9.AppImage` },
+      { label: "Download .rpm", href: `${BASE_DL}/absensholat-desktop-el-1.1.9.x86_64.rpm` },
     ],
   },
 ];

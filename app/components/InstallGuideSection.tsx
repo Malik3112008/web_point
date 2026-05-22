@@ -18,12 +18,19 @@ interface Step {
   desc: string;
 }
 
+interface DownloadLink {
+  label: string;
+  href: string;
+}
+
 interface PlatformData {
   id: Platform;
   label: string;
   icon: React.ElementType;
   steps: Step[];
   downloadLabel: string;
+  downloadHref?: string;
+  extraDownloads?: DownloadLink[];
 }
 
 const platforms: PlatformData[] = [
@@ -32,6 +39,7 @@ const platforms: PlatformData[] = [
     label: "Android",
     icon: Smartphone,
     downloadLabel: "Download APK",
+    downloadHref: "/sas-mobile-v1.0.0.apk",
     steps: [
       {
         title: "Download APK atau buka Google Play",
@@ -222,12 +230,34 @@ export default function InstallGuideSection() {
               ))}
             </div>
 
-            {/* Download button */}
-            <div className="mt-8 text-center">
-              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
-                <Download size={18} />
-                {active.downloadLabel}
-              </button>
+            {/* Download button(s) */}
+            <div className="mt-8 flex flex-col items-center gap-2">
+              {active.downloadHref ? (
+                <a
+                  href={active.downloadHref}
+                  download
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
+                >
+                  <Download size={18} />
+                  {active.downloadLabel}
+                </a>
+              ) : (
+                <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
+                  <Download size={18} />
+                  {active.downloadLabel}
+                </button>
+              )}
+              {active.extraDownloads?.map((dl) => (
+                <a
+                  key={dl.label}
+                  href={dl.href}
+                  download
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-border text-foreground font-semibold text-sm hover:border-border-hover hover:bg-card transition-all"
+                >
+                  <Download size={18} />
+                  {dl.label}
+                </a>
+              ))}
             </div>
           </motion.div>
         </AnimatePresence>
