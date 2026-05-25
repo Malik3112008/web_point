@@ -37,7 +37,7 @@ export default function HeroSection() {
         transition={{ duration: 0.5 }}
         className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full border border-border bg-card text-xs font-medium text-secondary"
       >
-        <span>v1.0.2 Now Available</span>
+        <span>v1.0.3 Now Available</span>
       </motion.div>
 
       <motion.h1
