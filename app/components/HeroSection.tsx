@@ -8,6 +8,7 @@ import {
   Globe,
   Laptop,
 } from "lucide-react";
+import { useVersions } from "@/lib/useVersions";
 
 const platforms = [
   {
@@ -23,6 +24,9 @@ const platforms = [
 ];
 
 export default function HeroSection() {
+  const { mobile, desktop } = useVersions();
+  const latestVersion = mobile?.version || desktop?.version;
+
   return (
     <section className="relative flex flex-col items-center justify-center min-h-screen px-6 pt-24 pb-20 text-center overflow-hidden">
       {/* Background blobs */}
@@ -37,7 +41,7 @@ export default function HeroSection() {
         transition={{ duration: 0.5 }}
         className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full border border-border bg-card text-xs font-medium text-secondary"
       >
-        <span>v1.0.3 Now Available</span>
+        <span>{latestVersion ? `v${latestVersion} Now Available` : "Loading..."}</span>
       </motion.div>
 
       <motion.h1

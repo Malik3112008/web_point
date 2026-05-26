@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Smartphone,
@@ -10,6 +10,7 @@ import {
   Globe,
   Download,
 } from "lucide-react";
+import { useVersions } from "@/lib/useVersions";
 
 type Platform = "android" | "windows" | "macos" | "linux" | "web";
 
@@ -33,132 +34,164 @@ interface PlatformData {
   extraDownloads?: DownloadLink[];
 }
 
-const platforms: PlatformData[] = [
-  {
-    id: "android",
-    label: "Android",
-    icon: Smartphone,
-    downloadLabel: "Download APK",
-    downloadHref: "/sas-mobile-v1.0.3.apk",
-    steps: [
-      {
-        title: "Download APK atau buka Google Play",
-        desc: "Klik tombol download di atas untuk mendapatkan file APK atau langsung ke Google Play Store.",
-      },
-      {
-        title: "Izinkan instalasi",
-        desc: 'Jika menggunakan APK, aktifkan "Install from unknown sources" di pengaturan keamanan.',
-      },
-      {
-        title: "Buka file & install",
-        desc: "Buka file APK yang telah diunduh dan ikuti instruksi instalasi.",
-      },
-      {
-        title: "Selesai!",
-        desc: "Buka AppPoint dari launcher dan mulai gunakan aplikasi.",
-      },
-    ],
-  },
-  {
-    id: "windows",
-    label: "Windows",
-    icon: Monitor,
-    downloadLabel: "Download .msi",
-    steps: [
-      {
-        title: "Download installer",
-        desc: "Klik tombol download untuk mengunduh file .msi installer AppPoint.",
-      },
-      {
-        title: "Jalankan installer",
-        desc: "Buka file .msi yang telah diunduh. Jika muncul peringatan SmartScreen, klik 'Run anyway'.",
-      },
-      {
-        title: "Ikuti wizard instalasi",
-        desc: "Pilih direktori instalasi dan klik 'Install' untuk memulai proses instalasi.",
-      },
-      {
-        title: "Selesai!",
-        desc: "AppPoint akan muncul di Start Menu dan desktop. Buka dan mulai gunakan.",
-      },
-    ],
-  },
-  {
-    id: "macos",
-    label: "macOS",
-    icon: Apple,
-    downloadLabel: "Download .dmg",
-    steps: [
-      {
-        title: "Download file .dmg",
-        desc: "Klik tombol download untuk mengunduh file disk image (.dmg) AppPoint.",
-      },
-      {
-        title: "Buka file .dmg",
-        desc: "Double-click file .dmg yang telah diunduh untuk membuka disk image.",
-      },
-      {
-        title: "Drag ke Applications",
-        desc: "Seret ikon AppPoint ke folder Applications seperti pada aplikasi macOS lainnya.",
-      },
-      {
-        title: "Selesai!",
-        desc: "Buka AppPoint dari Launchpad atau folder Applications. Selamat menikmati!",
-      },
-    ],
-  },
-  {
-    id: "linux",
-    label: "Linux",
-    icon: Laptop,
-    downloadLabel: "Download .deb",
-    steps: [
-      {
-        title: "Pilih format package",
-        desc: "Download file .deb untuk Debian/Ubuntu atau .AppImage untuk distribusi lainnya.",
-      },
-      {
-        title: "Install package",
-        desc: 'Untuk .deb: jalankan "sudo dpkg -i apppoint.deb". Untuk .AppImage: chmod +x lalu jalankan.',
-      },
-      {
-        title: "Install dependencies",
-        desc: 'Jika ada error dependency, jalankan "sudo apt-get install -f" untuk memperbaikinya.',
-      },
-      {
-        title: "Selesai!",
-        desc: "Cari AppPoint di application menu atau jalankan dari terminal.",
-      },
-    ],
-  },
-  {
-    id: "web",
-    label: "Web",
-    icon: Globe,
-    downloadLabel: "Open Web App",
-    steps: [
-      {
-        title: "Buka browser",
-        desc: "AppPoint Web App kompatibel dengan Chrome, Firefox, Safari, dan Edge terbaru.",
-      },
-      {
-        title: "Kunjungi URL AppPoint",
-        desc: "Buka app.apppoint.com di browser Anda. Tidak perlu install apapun.",
-      },
-      {
-        title: "Login atau daftar",
-        desc: "Masuk dengan akun yang sudah ada atau buat akun baru secara gratis.",
-      },
-      {
-        title: "Selesai!",
-        desc: "Anda bisa langsung menggunakan AppPoint. Bookmark halaman untuk akses cepat.",
-      },
-    ],
-  },
-];
+function getPlatforms(mobileUrl?: string, desktopBase?: string, desktopVersion?: string): PlatformData[] {
+  const winHref = desktopBase && desktopVersion
+    ? `${desktopBase}/Absensholat.Desktop.${desktopVersion}.msi`
+    : undefined;
+  const macHref = desktopBase && desktopVersion
+    ? `${desktopBase}/Absensholat.Desktop-${desktopVersion}-universal.dmg`
+    : undefined;
+  const linuxDebHref = desktopBase && desktopVersion
+    ? `${desktopBase}/absensholat-desktop-el_${desktopVersion}_amd64.deb`
+    : undefined;
+  const linuxAppImageHref = desktopBase && desktopVersion
+    ? `${desktopBase}/Absensholat.Desktop-${desktopVersion}.AppImage`
+    : undefined;
+  const linuxRpmHref = desktopBase && desktopVersion
+    ? `${desktopBase}/absensholat-desktop-el-${desktopVersion}.x86_64.rpm`
+    : undefined;
+
+  return [
+    {
+      id: "android",
+      label: "Android",
+      icon: Smartphone,
+      downloadLabel: "Download APK",
+      downloadHref: mobileUrl,
+      steps: [
+        {
+          title: "Download APK atau buka Google Play",
+          desc: "Klik tombol download di atas untuk mendapatkan file APK atau langsung ke Google Play Store.",
+        },
+        {
+          title: "Izinkan instalasi",
+          desc: 'Jika menggunakan APK, aktifkan "Install from unknown sources" di pengaturan keamanan.',
+        },
+        {
+          title: "Buka file & install",
+          desc: "Buka file APK yang telah diunduh dan ikuti instruksi instalasi.",
+        },
+        {
+          title: "Selesai!",
+          desc: "Buka AppPoint dari launcher dan mulai gunakan aplikasi.",
+        },
+      ],
+    },
+    {
+      id: "windows",
+      label: "Windows",
+      icon: Monitor,
+      downloadLabel: "Download .msi",
+      downloadHref: winHref,
+      steps: [
+        {
+          title: "Download installer",
+          desc: "Klik tombol download untuk mengunduh file .msi installer AppPoint.",
+        },
+        {
+          title: "Jalankan installer",
+          desc: "Buka file .msi yang telah diunduh. Jika muncul peringatan SmartScreen, klik 'Run anyway'.",
+        },
+        {
+          title: "Ikuti wizard instalasi",
+          desc: "Pilih direktori instalasi dan klik 'Install' untuk memulai proses instalasi.",
+        },
+        {
+          title: "Selesai!",
+          desc: "AppPoint akan muncul di Start Menu dan desktop. Buka dan mulai gunakan.",
+        },
+      ],
+    },
+    {
+      id: "macos",
+      label: "macOS",
+      icon: Apple,
+      downloadLabel: "Download .dmg",
+      downloadHref: macHref,
+      steps: [
+        {
+          title: "Download file .dmg",
+          desc: "Klik tombol download untuk mengunduh file disk image (.dmg) AppPoint.",
+        },
+        {
+          title: "Buka file .dmg",
+          desc: "Double-click file .dmg yang telah diunduh untuk membuka disk image.",
+        },
+        {
+          title: "Drag ke Applications",
+          desc: "Seret ikon AppPoint ke folder Applications seperti pada aplikasi macOS lainnya.",
+        },
+        {
+          title: "Selesai!",
+          desc: "Buka AppPoint dari Launchpad atau folder Applications. Selamat menikmati!",
+        },
+      ],
+    },
+    {
+      id: "linux",
+      label: "Linux",
+      icon: Laptop,
+      downloadLabel: "Download .deb",
+      downloadHref: linuxDebHref,
+      extraDownloads: [
+        ...(linuxAppImageHref ? [{ label: "Download .AppImage", href: linuxAppImageHref }] : []),
+        ...(linuxRpmHref ? [{ label: "Download .rpm", href: linuxRpmHref }] : []),
+      ],
+      steps: [
+        {
+          title: "Pilih format package",
+          desc: "Download .deb untuk Debian/Ubuntu, .rpm untuk Fedora/RHEL, atau .AppImage untuk semua distro (tanpa install).",
+        },
+        {
+          title: "Install package",
+          desc: 'deb: "sudo dpkg -i file.deb". rpm: "sudo rpm -i file.rpm". AppImage: chmod +x lalu jalankan langsung.',
+        },
+        {
+          title: "Install dependencies (deb/rpm)",
+          desc: 'Jika error dependency di Debian: "sudo apt-get install -f". Di Fedora: "sudo dnf install". AppImage tidak perlu.',
+        },
+        {
+          title: "Selesai!",
+          desc: "Cari AppPoint di application menu atau jalankan dari terminal.",
+        },
+      ],
+    },
+    {
+      id: "web",
+      label: "Web",
+      icon: Globe,
+      downloadLabel: "Open Web App",
+      steps: [
+        {
+          title: "Buka browser",
+          desc: "AppPoint Web App kompatibel dengan Chrome, Firefox, Safari, dan Edge terbaru.",
+        },
+        {
+          title: "Kunjungi URL AppPoint",
+          desc: "Buka app.apppoint.com di browser Anda. Tidak perlu install apapun.",
+        },
+        {
+          title: "Login atau daftar",
+          desc: "Masuk dengan akun yang sudah ada atau buat akun baru secara gratis.",
+        },
+        {
+          title: "Selesai!",
+          desc: "Anda bisa langsung menggunakan AppPoint. Bookmark halaman untuk akses cepat.",
+        },
+      ],
+    },
+  ];
+}
 
 export default function InstallGuideSection() {
+  const { mobile, desktop } = useVersions();
   const [activeTab, setActiveTab] = useState<Platform>("android");
+
+  const platforms = useMemo(
+    () => getPlatforms(mobile?.apkUrl, desktop?.baseDownloadUrl, desktop?.version),
+    [mobile, desktop],
+  );
+
   const active = platforms.find((p) => p.id === activeTab)!;
 
   return (

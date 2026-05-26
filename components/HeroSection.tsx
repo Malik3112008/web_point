@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Monitor, Smartphone, Apple, Globe } from "lucide-react";
+import { useVersions } from "@/lib/useVersions";
 
 const platforms = [
   {
@@ -33,6 +34,9 @@ const platforms = [
 ];
 
 export default function HeroSection() {
+  const { mobile, desktop } = useVersions();
+  const latestVersion = mobile?.version || desktop?.version;
+
   return (
     <section className="relative flex flex-col items-center justify-center px-6 pt-28 pb-20 text-center overflow-hidden">
       {/* Background gradient blobs */}
@@ -48,7 +52,7 @@ export default function HeroSection() {
         transition={{ duration: 0.5 }}
         className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-secondary"
       >
-        <span>✨</span> v1.0.3 Now Available
+        <span>✨</span> {latestVersion ? `v${latestVersion} Now Available` : "Loading..."}
       </motion.div>
 
       {/* Headline */}

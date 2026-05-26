@@ -2,21 +2,18 @@
 
 import { motion } from "framer-motion";
 import { Monitor, Apple, Laptop, Download, ExternalLink } from "lucide-react";
+import { useVersions } from "@/lib/useVersions";
 
-const BASE_DL =
-  "https://gh-proxy.com/https://github.com/raiylakee/absensholat-desktop-el/releases/download/v1.1.9";
-const RELEASES_URL =
-  "https://github.com/raiylakee/absensholat-desktop-el/releases/tag/v1.1.9";
-
-const platforms = [
+const platformsDef = [
   {
     icon: Monitor,
     label: "Windows",
     formats: ".msi (NSIS)",
     arch: "x64 & arm64",
     desc: "Installer untuk Windows 10/11",
-    downloads: [
-      { label: "Download .msi", href: `${BASE_DL}/Absensholat.Desktop.1.1.9.msi` },
+    ext: "msi",
+    template: (base: string, ver: string) => [
+      { label: "Download .msi", href: `${base}/Absensholat.Desktop.${ver}.msi` },
     ],
   },
   {
@@ -25,8 +22,9 @@ const platforms = [
     formats: ".dmg (Universal)",
     arch: "Intel & Apple Silicon",
     desc: "Untuk macOS 11 Big Sur ke atas",
-    downloads: [
-      { label: "Download .dmg", href: `${BASE_DL}/Absensholat.Desktop-1.1.9-universal.dmg` },
+    ext: "dmg",
+    template: (base: string, ver: string) => [
+      { label: "Download .dmg", href: `${base}/Absensholat.Desktop-${ver}-universal.dmg` },
     ],
   },
   {
@@ -35,15 +33,26 @@ const platforms = [
     formats: ".deb / .AppImage / .rpm",
     arch: "x64 & arm64",
     desc: "Untuk Debian, Ubuntu, Fedora, Arch, dan distro lainnya",
-    downloads: [
-      { label: "Download .deb", href: `${BASE_DL}/absensholat-desktop-el_1.1.9_amd64.deb` },
-      { label: "Download .AppImage", href: `${BASE_DL}/Absensholat.Desktop-1.1.9.AppImage` },
-      { label: "Download .rpm", href: `${BASE_DL}/absensholat-desktop-el-1.1.9.x86_64.rpm` },
+    ext: "deb",
+    template: (base: string, ver: string) => [
+      { label: "Download .deb", href: `${base}/absensholat-desktop-el_${ver}_amd64.deb` },
+      { label: "Download .AppImage", href: `${base}/Absensholat.Desktop-${ver}.AppImage` },
+      { label: "Download .rpm", href: `${base}/absensholat-desktop-el-${ver}.x86_64.rpm` },
     ],
   },
 ];
 
 export default function DesktopAppSection() {
+  const { desktop } = useVersions();
+
+  const base = desktop?.baseDownloadUrl;
+  const ver = desktop?.version;
+  const releaseUrl = desktop?.releaseUrl;
+
+  const platforms = base && ver
+    ? platformsDef.map((p) => ({ ...p, downloads: p.template(base, ver) }))
+    : platformsDef.map((p) => ({ ...p, downloads: [] as { label: string; href: string }[] }));
+
   return (
     <section id="apps" className="px-6 py-20">
       <div className="max-w-5xl mx-auto">
@@ -60,7 +69,7 @@ export default function DesktopAppSection() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-secondary" />
             </span>
-            New App
+            {ver ? `v${ver}` : "New App"}
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold mb-3">
             Absensholat Desktop
@@ -103,17 +112,21 @@ export default function DesktopAppSection() {
 
                 {/* Download buttons */}
                 <div className="flex flex-col gap-2">
-                  {p.downloads.map((dl) => (
-                    <a
-                      key={dl.label}
-                      href={dl.href}
-                      download
-                      className="inline-flex items-center gap-2 w-full justify-center rounded-xl bg-gradient-to-r from-primary to-secondary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:opacity-90 transition-opacity"
-                    >
-                      <Download size={16} />
-                      {dl.label}
-                    </a>
-                  ))}
+                  {p.downloads.length > 0 ? (
+                    p.downloads.map((dl) => (
+                      <a
+                        key={dl.label}
+                        href={dl.href}
+                        download
+                        className="inline-flex items-center gap-2 w-full justify-center rounded-xl bg-gradient-to-r from-primary to-secondary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 hover:opacity-90 transition-opacity"
+                      >
+                        <Download size={16} />
+                        {dl.label}
+                      </a>
+                    ))
+                  ) : (
+                    <div className="text-sm text-muted text-center py-2">Loading...</div>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -121,23 +134,25 @@ export default function DesktopAppSection() {
         </div>
 
         {/* Release link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-8 text-center"
-        >
-          <a
-            href={RELEASES_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors"
+        {releaseUrl && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-8 text-center"
           >
-            Lihat semua rilis di GitHub
-            <ExternalLink size={14} />
-          </a>
-        </motion.div>
+            <a
+              href={releaseUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors"
+            >
+              Lihat semua rilis di GitHub
+              <ExternalLink size={14} />
+            </a>
+          </motion.div>
+        )}
       </div>
     </section>
   );
