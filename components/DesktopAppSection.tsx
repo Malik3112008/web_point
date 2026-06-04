@@ -13,7 +13,7 @@ const platformsDef = [
     desc: "Installer untuk Windows 10/11",
     ext: "msi",
     template: (base: string, ver: string) => [
-      { label: "Download .msi", href: `${base}/Absensholat.Desktop.${ver}.msi` },
+      { label: "Download .msi", href: `${base}/Presensi.Sholat.Desktop.${ver}.msi` },
     ],
   },
   {

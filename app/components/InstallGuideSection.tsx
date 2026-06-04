@@ -36,7 +36,7 @@ interface PlatformData {
 
 function getPlatforms(mobileUrl?: string, desktopBase?: string, desktopVersion?: string): PlatformData[] {
   const winHref = desktopBase && desktopVersion
-    ? `${desktopBase}/Absensholat.Desktop.${desktopVersion}.msi`
+    ? `${desktopBase}/Presensi.Sholat.Desktop.${desktopVersion}.msi`
     : undefined;
   const macHref = desktopBase && desktopVersion
     ? `${desktopBase}/Absensholat.Desktop-${desktopVersion}-universal.dmg`

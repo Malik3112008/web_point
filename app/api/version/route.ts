@@ -18,6 +18,15 @@ async function fetchLatestRelease(repo: string) {
   return (await res.json()) as GitHubRelease;
 }
 
+async function fetchReleases(repo: string) {
+  const res = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=10`, {
+    headers: { Accept: "application/vnd.github+json" },
+    next: { revalidate: 300 },
+  });
+  if (!res.ok) return [];
+  return (await res.json()) as GitHubRelease[];
+}
+
 export async function GET() {
   try {
     const [desktopRelease, mobileRelease] = await Promise.all([
@@ -39,13 +48,21 @@ export async function GET() {
 
     let mobile: { version: string; apkUrl: string } | null = null;
 
-    if (mobileRelease) {
-      const tag = mobileRelease.tag_name;
-      const version = tag.replace(/^v/, "");
-      const apkAsset = mobileRelease.assets.find(
+    // Try latest release first, fall back to older releases if no APK found
+    let mobileReleaseWithApk: GitHubRelease | undefined = mobileRelease ?? undefined;
+
+    if (mobileReleaseWithApk && !mobileReleaseWithApk.assets.some((a) => a.name.endsWith(".apk"))) {
+      const releases = await fetchReleases(MOBILE_REPO);
+      mobileReleaseWithApk = releases.find((r) => r.assets.some((a) => a.name.endsWith(".apk")));
+    }
+
+    if (mobileReleaseWithApk) {
+      const apkAsset = mobileReleaseWithApk.assets.find(
         (a) => a.name.endsWith(".apk")
       );
       if (apkAsset) {
+        const tag = mobileReleaseWithApk.tag_name;
+        const version = tag.replace(/^v/, "");
         mobile = {
           version,
           apkUrl: `${GH_PROXY}${apkAsset.browser_download_url}`,
